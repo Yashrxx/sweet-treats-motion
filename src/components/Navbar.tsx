@@ -45,22 +45,43 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-300 font-medium relative group"
+                className={`font-medium relative group transition-colors duration-300 ${
+                  isScrolled 
+                    ? 'text-foreground hover:text-primary' 
+                    : 'text-white hover:text-golden'
+                }`}
               >
                 {item.name}
-                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className={`absolute left-0 bottom-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                  isScrolled ? 'bg-primary' : 'bg-golden'
+                }`}></span>
               </a>
             ))}
           </div>
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="hover:bg-accent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className={`transition-colors duration-300 ${
+                isScrolled 
+                  ? 'text-foreground hover:bg-accent hover:text-primary' 
+                  : 'text-white hover:bg-white/10 hover:text-golden'
+              }`}
+            >
               <ShoppingBag className="h-4 w-4 mr-2" />
               Cart
             </Button>
-            <Button size="sm" className="bg-gradient-hero hover:scale-105 transition-transform duration-300">
-              Order Now
+            <Button 
+              size="sm" 
+              className={`transition-all duration-300 hover:scale-105 ${
+                isScrolled
+                  ? 'bg-gradient-hero text-primary-foreground'
+                  : 'bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-primary'
+              }`}
+            >
+              Visit Our Store
             </Button>
           </div>
 
@@ -68,7 +89,11 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className={`md:hidden transition-colors duration-300 ${
+              isScrolled 
+                ? 'text-foreground hover:bg-accent' 
+                : 'text-white hover:bg-white/10'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -87,19 +112,19 @@ const Navbar = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors duration-300"
+                  className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors duration-300 font-medium"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
               <div className="flex flex-col space-y-2 px-3 pt-2">
-                <Button variant="ghost" size="sm" className="justify-start">
+                <Button variant="ghost" size="sm" className="justify-start text-foreground hover:text-primary hover:bg-accent">
                   <ShoppingBag className="h-4 w-4 mr-2" />
                   Cart
                 </Button>
-                <Button size="sm" className="bg-gradient-hero">
-                  Order Now
+                <Button size="sm" className="bg-gradient-hero text-primary-foreground">
+                  Visit Our Store
                 </Button>
               </div>
             </div>

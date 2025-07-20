@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '@/components/Navbar';
@@ -7,10 +7,6 @@ import ProductCard from '@/components/ProductCard';
 import { Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import sourdoughBread from '@/assets/sourdough-bread.jpg';
-import croissants from '@/assets/croissants.jpg';
-import chocolateCake from '@/assets/chocolate-cake.jpg';
-import blueberryMuffins from '@/assets/blueberry-muffins.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,29 +16,32 @@ const Products = () => {
   const filtersRef = useRef<HTMLDivElement>(null);
   const productsRef = useRef<HTMLDivElement>(null);
 
+  const [allProducts, setAllProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Header animation
-      gsap.fromTo(headerRef.current, 
+      gsap.fromTo(headerRef.current,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
       );
 
       // Filters animation
-      gsap.fromTo(filtersRef.current, 
+      gsap.fromTo(filtersRef.current,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power3.out" }
       );
 
       // Products stagger animation
-      gsap.fromTo(productsRef.current?.children || [], 
+      gsap.fromTo(productsRef.current?.children || [],
         { opacity: 0, y: 60, scale: 0.9 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          scale: 1, 
-          duration: 0.8, 
-          ease: "power3.out", 
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
           stagger: 0.15,
           delay: 0.5
         }
@@ -52,71 +51,27 @@ const Products = () => {
     return () => ctx.revert();
   }, []);
 
-  const allProducts = [
-    {
-      image: sourdoughBread,
-      title: "Artisan Sourdough Bread",
-      rating: 5,
-      price: "$8.99",
-      originalPrice: "$10.99",
-      category: "Bread"
-    },
-    {
-      image: croissants,
-      title: "Butter Croissants",
-      rating: 5,
-      price: "$3.50",
-      category: "Pastries"
-    },
-    {
-      image: chocolateCake,
-      title: "Chocolate Layer Cake",
-      rating: 4,
-      price: "$24.99",
-      originalPrice: "$29.99",
-      category: "Cakes"
-    },
-    {
-      image: blueberryMuffins,
-      title: "Blueberry Muffins",
-      rating: 5,
-      price: "$12.99",
-      category: "Muffins"
-    },
-    {
-      image: sourdoughBread,
-      title: "Whole Wheat Bread",
-      rating: 4,
-      price: "$7.99",
-      category: "Bread"
-    },
-    {
-      image: croissants,
-      title: "Almond Croissants",
-      rating: 5,
-      price: "$4.50",
-      category: "Pastries"
-    },
-    {
-      image: chocolateCake,
-      title: "Vanilla Birthday Cake",
-      rating: 5,
-      price: "$22.99",
-      category: "Cakes"
-    },
-    {
-      image: blueberryMuffins,
-      title: "Chocolate Chip Muffins",
-      rating: 4,
-      price: "$12.99",
-      category: "Muffins"
-    }
-  ];
+  useEffect(() => {
+    // Fetch products from backend
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/products`);
+        const data = await res.json();
+        setAllProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div ref={sectionRef} className="min-h-screen bg-background">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-b from-cream to-background">
         <div className="container mx-auto px-4">
@@ -126,7 +81,7 @@ const Products = () => {
               <span className="text-primary block">Product Range</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              From artisan breads to decadent desserts, discover our full collection of 
+              From artisan breads to decadent desserts, discover our full collection of
               handcrafted baked goods made fresh daily with premium ingredients.
             </p>
           </div>
@@ -140,8 +95,8 @@ const Products = () => {
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input 
-                  placeholder="Search products..." 
+                <Input
+                  placeholder="Search products..."
                   className="pl-10 w-64"
                 />
               </div>
@@ -150,7 +105,7 @@ const Products = () => {
                 <span>Filter</span>
               </Button>
             </div>
-            
+
             <div className="flex flex-wrap gap-2">
               {['All', 'Bread', 'Pastries', 'Cakes', 'Muffins'].map((category) => (
                 <Button
@@ -170,18 +125,24 @@ const Products = () => {
       {/* Products Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div ref={productsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {allProducts.map((product, index) => (
-              <ProductCard
-                key={index}
-                image={product.image}
-                title={product.title}
-                rating={product.rating}
-                price={product.price}
-                originalPrice={product.originalPrice}
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center text-muted-foreground text-xl">Loading products...</div>
+          ) : allProducts.length === 0 ? (
+            <div className="text-center text-muted-foreground text-xl">No products available.</div>
+          ) : (
+            <div ref={productsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {allProducts.map((product: any, index: number) => (
+                <ProductCard
+                  key={product._id || index}
+                  image={product.imageUrl}
+                  title={product.title}
+                  rating={product.rating}
+                  price={product.price}
+                  originalPrice={product.originalPrice}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

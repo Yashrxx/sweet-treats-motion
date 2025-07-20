@@ -26,11 +26,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-soft'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-background/95 backdrop-blur-md shadow-soft'
+        : 'bg-transparent'
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -47,47 +46,46 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`font-medium relative group transition-colors duration-300 ${
-                  location.pathname === item.href
-                    ? isScrolled 
-                      ? 'text-primary' 
-                      : 'text-golden'
-                    : isScrolled 
-                      ? 'text-foreground hover:text-primary' 
-                      : 'text-white hover:text-golden'
-                }`}
+                className={`font-semibold relative group transition-colors duration-300 ${location.pathname === item.href
+                  ? (isScrolled
+                    ? 'text-primary'
+                    : 'text-golden') // always golden when not scrolled
+                  : isScrolled
+                    ? 'text-foreground hover:text-primary'
+                    : 'text-[#a97438] hover:text-golden'
+                  }`}
               >
                 {item.name}
-                <span className={`absolute left-0 bottom-0 h-0.5 transition-all duration-300 ${
-                  location.pathname === item.href 
-                    ? 'w-full' 
+                <span
+                  className={`absolute left-0 bottom-0 h-0.5 transition-all duration-300 ${location.pathname === item.href
+                    ? 'w-full'
                     : 'w-0 group-hover:w-full'
-                } ${isScrolled ? 'bg-primary' : 'bg-golden'}`}></span>
+                    } ${isScrolled ? 'bg-primary' : 'bg-golden'}`}
+                ></span>
               </Link>
+
             ))}
           </div>
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className={`transition-colors duration-300 ${
-                isScrolled 
-                  ? 'text-foreground hover:bg-accent hover:text-primary' 
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`transition-colors duration-300 ${isScrolled || location.pathname === '/products' || location.pathname === '/contact'
+                  ? 'text-foreground hover:bg-accent hover:text-primary'
                   : 'text-white hover:bg-white/10 hover:text-golden'
-              }`}
+                }`}
             >
               <ShoppingBag className="h-4 w-4 mr-2" />
               Cart
             </Button>
-            <Button 
-              size="sm" 
-              className={`transition-all duration-300 hover:scale-105 ${
-                isScrolled
+            <Button
+              size="sm"
+              className={`transition-all duration-300 hover:scale-105 ${isScrolled || location.pathname === '/products' || location.pathname === '/contact'
                   ? 'bg-gradient-hero text-primary-foreground'
                   : 'bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-primary'
-              }`}
+                }`}
             >
               Visit Our Store
             </Button>
@@ -97,11 +95,10 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="sm"
-            className={`md:hidden transition-colors duration-300 ${
-              isScrolled 
-                ? 'text-foreground hover:bg-accent' 
-                : 'text-white hover:bg-white/10'
-            }`}
+            className={`md:hidden transition-colors duration-300 ${isScrolled
+              ? 'text-foreground hover:bg-accent'
+              : 'text-white hover:bg-white/10'
+              }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -120,11 +117,10 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block px-3 py-2 rounded-md transition-colors duration-300 font-medium ${
-                    location.pathname === item.href
-                      ? 'text-primary bg-accent'
-                      : 'text-foreground hover:text-primary hover:bg-accent'
-                  }`}
+                  className={`block px-3 py-2 rounded-md transition-colors duration-300 font-medium ${location.pathname === item.href
+                    ? 'text-primary bg-accent'
+                    : 'text-foreground hover:text-primary hover:bg-accent'
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}

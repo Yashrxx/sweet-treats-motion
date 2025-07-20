@@ -28,24 +28,24 @@ const Hero = () => {
         duration: 1,
         ease: "power3.out"
       })
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.5")
-      .to(buttonsRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out"
-      }, "-=0.3")
-      .to(featuresRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.2");
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.5")
+        .to(buttonsRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power3.out"
+        }, "-=0.3")
+        .to(featuresRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.2");
 
       // Floating animation for features
       gsap.to(featuresRef.current?.children || [], {
@@ -82,7 +82,6 @@ const Hero = () => {
 
   return (
     <section id="home" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src={bakeryHero}
@@ -92,9 +91,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
       </div>
 
-      {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl mt-24">
           <h1
             ref={titleRef}
             className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
@@ -107,7 +105,7 @@ const Hero = () => {
             ref={subtitleRef}
             className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed"
           >
-            Discover the art of traditional baking with our handcrafted breads, 
+            Discover the art of traditional baking with our handcrafted breads,
             pastries, and desserts made fresh daily using time-honored recipes.
           </p>
 
@@ -119,15 +117,14 @@ const Hero = () => {
               View Our Menu
             </Button>
             <Button
-              variant="outline"
+              variant="ghost"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300 text-lg px-8 py-4"
+              className="bg-[hsl(40,30%,95%)] text-primary hover:bg-white hover:text-primary transition-all duration-300 text-lg px-8 py-4 border-none shadow-none"
             >
               Visit Our Store
             </Button>
           </div>
 
-          {/* Features */}
           <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
@@ -141,15 +138,6 @@ const Hero = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-        <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse" />
           </div>
         </div>
       </div>

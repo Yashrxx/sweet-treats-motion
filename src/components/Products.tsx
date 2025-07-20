@@ -6,6 +6,7 @@ import sourdoughBread from '@/assets/sourdough-bread.jpg';
 import croissants from '@/assets/croissants.jpg';
 import chocolateCake from '@/assets/chocolate-cake.jpg';
 import blueberryMuffins from '@/assets/blueberry-muffins.jpg';
+import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,9 +122,9 @@ const Products = () => {
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-gradient-hero text-primary-foreground px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-soft">
+          <Link to="/products" className="bg-gradient-hero text-primary-foreground px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-soft">
             View Full Menu
-          </button>
+          </Link>
         </div>
       </div>
     </section>
